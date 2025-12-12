@@ -1,5 +1,6 @@
 package com.example.jucygo.controller;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jucygo.R;
 import com.example.jucygo.model.Product;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -94,42 +96,29 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 textViewProductDescription.setText(description);
             }
 
-            // Set product image based on product name
-            setProductImage(product.getName().toLowerCase());
+            // Set product image - use custom image if available, otherwise use placeholder
+            if (product.hasImage()) {
+                File imageFile = new File(product.getImagePath());
+                if (imageFile.exists()) {
+                    imageViewProduct.setImageURI(Uri.fromFile(imageFile));
+                    imageViewProduct.clearColorFilter();
+                    imageViewProduct.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageViewProduct.setPadding(0, 0, 0, 0);
+                } else {
+                    setProductPlaceholder(product.getName().toLowerCase());
+                }
+            } else {
+                setProductPlaceholder(product.getName().toLowerCase());
+            }
         }
 
-        private void setProductImage(String productName) {
-            int imageResource;
+        private void setProductPlaceholder(String productName) {
+            // Set placeholder image
+            imageViewProduct.setImageResource(R.drawable.ic_product_placeholder);
+            imageViewProduct.setScaleType(ImageView.ScaleType.CENTER);
+            imageViewProduct.setPadding(12, 12, 12, 12);
             
-            // Assign images based on product name keywords
-            if (productName.contains("orange") || productName.contains("citrus")) {
-                imageResource = android.R.drawable.star_big_on;
-            } else if (productName.contains("apple")) {
-                imageResource = android.R.drawable.btn_star_big_on;
-            } else if (productName.contains("mango") || productName.contains("tropical")) {
-                imageResource = android.R.drawable.star_big_off;
-            } else if (productName.contains("strawberry") || productName.contains("berry")) {
-                imageResource = android.R.drawable.btn_star_big_off;
-            } else if (productName.contains("pineapple")) {
-                imageResource = android.R.drawable.star_big_on;
-            } else if (productName.contains("grape")) {
-                imageResource = android.R.drawable.btn_star_big_on;
-            } else if (productName.contains("watermelon")) {
-                imageResource = android.R.drawable.star_big_off;
-            } else if (productName.contains("banana")) {
-                imageResource = android.R.drawable.btn_star_big_off;
-            } else if (productName.contains("lemon") || productName.contains("lime")) {
-                imageResource = android.R.drawable.star_big_on;
-            } else if (productName.contains("peach")) {
-                imageResource = android.R.drawable.btn_star_big_on;
-            } else {
-                // Default juice icon
-                imageResource = android.R.drawable.ic_menu_gallery;
-            }
-            
-            imageViewProduct.setImageResource(imageResource);
-            
-            // Add color tint based on product name for more visual variety
+            // Add color tint based on product name for visual variety
             if (productName.contains("orange") || productName.contains("mango") || productName.contains("peach")) {
                 imageViewProduct.setColorFilter(itemView.getContext().getColor(R.color.orange_juice));
             } else if (productName.contains("apple") || productName.contains("green")) {

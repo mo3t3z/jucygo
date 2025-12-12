@@ -70,6 +70,47 @@
                         android:textColor="@color/purple_700"
                         android:layout_marginBottom="20dp" />
 
+                    <!-- Product Image Section -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/teal_200"
+                        app:strokeWidth="2dp"
+                        app:cardBackgroundColor="@color/input_background_teal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="16dp">
+
+                            <ImageView
+                                android:id="@+id/imageViewProduct"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:src="@drawable/ic_product_placeholder"
+                                android:scaleType="centerCrop"
+                                android:padding="24dp"
+                                android:contentDescription="@string/product_image" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/buttonSelectImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_image"
+                                android:textAllCaps="false"
+                                app:backgroundTint="@color/teal_500"
+                                app:cornerRadius="8dp"
+                                app:icon="@drawable/ic_camera"
+                                app:iconGravity="start"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

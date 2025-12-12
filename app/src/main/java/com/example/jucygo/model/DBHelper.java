@@ -16,7 +16,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
     // Database name and version
     private static final String DATABASE_NAME = "JucygoDB";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     // Table names
     private static final String TABLE_PRODUCTS = "products";
@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
     private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_IMAGE_PATH = "imagePath";
 
     // Sale column names
     private static final String COLUMN_SALE_ID = "id";
@@ -54,7 +55,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_NAME + " TEXT NOT NULL,"
             + COLUMN_PRICE + " REAL NOT NULL,"
             + COLUMN_QUANTITY + " INTEGER NOT NULL,"
-            + COLUMN_DESCRIPTION + " TEXT"
+            + COLUMN_DESCRIPTION + " TEXT,"
+            + COLUMN_IMAGE_PATH + " TEXT"
             + ")";
 
     // SQL query to create the sales table
@@ -100,6 +102,10 @@ public class DBHelper extends SQLiteOpenHelper {
             // Create orders table for version 3
             db.execSQL(CREATE_TABLE_ORDERS);
         }
+        if (oldVersion < 4) {
+            // Add imagePath column to products table for version 4
+            db.execSQL("ALTER TABLE " + TABLE_PRODUCTS + " ADD COLUMN " + COLUMN_IMAGE_PATH + " TEXT");
+        }
     }
 
     /**
@@ -115,6 +121,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_QUANTITY, product.getQuantity());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
+        values.put(COLUMN_IMAGE_PATH, product.getImagePath());
 
         long result = db.insert(TABLE_PRODUCTS, null, values);
         db.close();
@@ -139,7 +146,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                         cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION))
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_PATH))
                 );
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -168,7 +176,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_PATH))
             );
         }
 
@@ -190,6 +199,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_QUANTITY, product.getQuantity());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
+        values.put(COLUMN_IMAGE_PATH, product.getImagePath());
 
         int result = db.update(TABLE_PRODUCTS, values, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(product.getId())});
@@ -228,7 +238,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_PATH))
             );
         }
 

@@ -2,7 +2,7 @@ package com.example.jucygo.model;
 
 /**
  * Model class representing a Product in the Juice Sales Management system.
- * Contains product attributes: id, name, price, quantity, and description.
+ * Contains product attributes: id, name, price, quantity, description, and imagePath.
  */
 public class Product {
     private int id;
@@ -10,6 +10,7 @@ public class Product {
     private double price;
     private int quantity;
     private String description;
+    private String imagePath;
 
     // Constructor for creating a new product (without id)
     public Product(String name, double price, int quantity, String description) {
@@ -17,6 +18,16 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.description = description != null ? description : "";
+        this.imagePath = "";
+    }
+
+    // Constructor for creating a new product with image (without id)
+    public Product(String name, double price, int quantity, String description, String imagePath) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description != null ? description : "";
+        this.imagePath = imagePath != null ? imagePath : "";
     }
 
     // Constructor for existing product (with id)
@@ -26,6 +37,17 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.description = description != null ? description : "";
+        this.imagePath = "";
+    }
+
+    // Constructor for existing product with image (with id)
+    public Product(int id, String name, double price, int quantity, String description, String imagePath) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description != null ? description : "";
+        this.imagePath = imagePath != null ? imagePath : "";
     }
 
     // Getters and Setters
@@ -68,5 +90,18 @@ public class Product {
     public void setDescription(String description) {
         this.description = description != null ? description : "";
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath != null ? imagePath : "";
+    }
+
+    public boolean hasImage() {
+        return imagePath != null && !imagePath.isEmpty();
+    }
 }
+
 
