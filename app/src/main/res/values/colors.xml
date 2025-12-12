@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="purple_200">#E1BEE7</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="purple_700">#7B1FA2</color>
+    <color name="purple_900">#4A148C</color>
+    
+    <!-- Accent Colors -->
+    <color name="teal_200">#80CBC4</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_700">#00796B</color>
+    
+    <!-- Juice Theme Colors -->
+    <color name="orange_juice">#FF9800</color>
+    <color name="orange_juice_light">#FFE0B2</color>
+    <color name="green_juice">#4CAF50</color>
+    <color name="green_juice_light">#C8E6C9</color>
+    
+    <!-- Neutral Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_800">#424242</color>
+    
+    <!-- Background Colors -->
+    <color name="background_light">#FAFAFA</color>
+    <color name="surface_light">#FFFFFF</color>
+    
+    <!-- Input Colors - Creative Light Colors -->
+    <color name="input_background_purple">#F3E5F5</color>
+    <color name="input_background_teal">#E0F2F1</color>
+    <color name="input_background_orange">#FFF3E0</color>
+    <color name="input_background_green">#E8F5E9</color>
+    <color name="input_background_blue">#E3F2FD</color>
+    <color name="input_background_pink">#FCE4EC</color>
+    
+    <!-- Input Border Colors -->
+    <color name="input_border_purple">#CE93D8</color>
+    <color name="input_border_teal">#4DB6AC</color>
+    <color name="input_border_orange">#FFB74D</color>
+    <color name="input_border_green">#81C784</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    
+    <!-- Status Colors -->
+    <color name="success_green">#4CAF50</color>
+    <color name="warning_orange">#FF9800</color>
+    <color name="error_red">#F44336</color>
+</resources>

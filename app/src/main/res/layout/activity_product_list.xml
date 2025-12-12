@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_light">
+
+    <!-- Modern Header with Gradient Effect -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/purple_500"
+        android:layout_margin="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:paddingTop="32dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/product_list_title"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:letterSpacing="0.02"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Manage your juice inventory"
+                android:textSize="14sp"
+                android:textColor="@color/purple_200"
+                android:alpha="0.9" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Product List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProducts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp"
+        android:clipToPadding="false" />
+
+    <!-- Empty State -->
+    <TextView
+        android:id="@+id/textViewEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/no_products_message"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/text_secondary"
+        android:padding="48dp"
+        android:lineSpacingMultiplier="1.4" />
+
+    <!-- Action Buttons Container -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/surface_light"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Top Row: Record Sale & History -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonRecordSale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/button_record_sale"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    android:padding="14dp"
+                    app:backgroundTint="@color/teal_500"
+                    android:layout_marginEnd="6dp"
+                    app:icon="@android:drawable/stat_sys_upload"
+                    app:iconSize="20dp"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="12dp"
+                    android:elevation="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSalesHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/button_sales_history"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    android:padding="14dp"
+                    app:backgroundTint="@color/purple_700"
+                    android:layout_marginStart="6dp"
+                    app:icon="@android:drawable/ic_menu_sort_by_size"
+                    app:iconSize="20dp"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="12dp"
+                    android:elevation="2dp" />
+            </LinearLayout>
+
+            <!-- Add Product Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAddNewProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_add_new_product"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:padding="16dp"
+                app:backgroundTint="@color/purple_500"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconSize="22dp"
+                app:iconGravity="textStart"
+                app:cornerRadius="12dp"
+                android:elevation="3dp"
+                android:letterSpacing="0.02" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
