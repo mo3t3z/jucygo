@@ -316,7 +316,7 @@
                         android:id="@+id/textViewTotalAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="$0.00"
+                        android:text="DT 0.00"
                         android:textSize="40sp"
                         android:textStyle="bold"
                         android:textColor="@color/white"

@@ -50,7 +50,7 @@ public class AddOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_order);
 
         dbHelper = new DBHelper(this);
-        priceFormat = new DecimalFormat("$#,##0.00");
+        priceFormat = new DecimalFormat("DT #,##0.00");
 
         initializeViews();
         loadProducts();

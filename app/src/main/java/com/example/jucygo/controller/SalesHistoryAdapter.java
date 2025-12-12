@@ -30,7 +30,7 @@ public class SalesHistoryAdapter extends RecyclerView.Adapter<SalesHistoryAdapte
 
     public SalesHistoryAdapter(List<Sale> saleList) {
         this.saleList = saleList;
-        this.priceFormat = new DecimalFormat("$#,##0.00");
+        this.priceFormat = new DecimalFormat("DT #,##0.00");
         this.inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         this.outputFormat = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm", Locale.getDefault());
     }

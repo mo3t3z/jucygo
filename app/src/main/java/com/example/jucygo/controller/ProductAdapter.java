@@ -82,7 +82,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         void bind(Product product) {
             textViewProductName.setText(product.getName());
             
-            DecimalFormat priceFormat = new DecimalFormat("$#,##0.00");
+            DecimalFormat priceFormat = new DecimalFormat("DT #,##0.00");
             textViewProductPrice.setText(priceFormat.format(product.getPrice()));
             
             textViewProductQuantity.setText(String.valueOf(product.getQuantity()));
