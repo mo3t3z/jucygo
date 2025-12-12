@@ -46,6 +46,16 @@
             android:exported="false"
             android:parentActivityName=".controller.ProductListActivity" />
 
+        <activity
+            android:name=".controller.AddOrderActivity"
+            android:exported="false"
+            android:parentActivityName=".controller.ProductListActivity" />
+
+        <activity
+            android:name=".controller.OrderHistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".controller.ProductListActivity" />
+
     </application>
 
 </manifest>

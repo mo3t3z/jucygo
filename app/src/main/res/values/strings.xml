@@ -43,4 +43,59 @@
     <string name="quantity_sold_label">Quantity:</string>
     <string name="button_sales_history">Sales History</string>
     <string name="button_back_to_products">Back to Products</string>
+    
+    <!-- Order Management Strings -->
+    <string name="add_order_title">New Order</string>
+    <string name="add_order_subtitle">Create customer order manually</string>
+    <string name="order_history_title">Order History</string>
+    <string name="order_history_subtitle">View and manage all customer orders</string>
+    <string name="button_new_order">New Order</string>
+    <string name="button_order_history">Order History</string>
+    
+    <!-- Order Form -->
+    <string name="customer_info_title">Customer Information</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="product_selection_title">Product Selection</string>
+    <string name="product_info_title">Product Information</string>
+    <string name="quantity_to_order">Quantity to Order</string>
+    <string name="button_confirm_order">Confirm Order</string>
+    
+    <!-- Order Messages -->
+    <string name="customer_name_required">Customer name is required</string>
+    <string name="select_product_message">Please select a product</string>
+    <string name="quantity_required">Quantity is required</string>
+    <string name="quantity_greater_than_zero">Quantity must be greater than 0</string>
+    <string name="invalid_quantity_format">Invalid quantity format</string>
+    <string name="insufficient_stock_order">Insufficient stock. Available: </string>
+    <string name="insufficient_stock">Insufficient stock</string>
+    <string name="order_success">Order created successfully!</string>
+    <string name="customer_label">Customer:</string>
+    <string name="total_label">Total:</string>
+    <string name="order_stock_update_failed">Order created but failed to update stock</string>
+    <string name="order_failed">Failed to create order</string>
+    <string name="no_products_for_order">No products available. Please add products first.</string>
+    
+    <!-- Order History -->
+    <string name="search_orders_title">Search Orders</string>
+    <string name="search_orders_hint">Search by customer, product, or date</string>
+    <string name="no_orders_message">No orders yet.\nCreate your first order to see it here.</string>
+    <string name="quantity_ordered_label">Quantity:</string>
+    <string name="date_label">Date:</string>
+    
+    <!-- Order Status -->
+    <string name="status_pending">Pending</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_cancelled">Cancelled</string>
+    
+    <!-- Order Actions -->
+    <string name="button_complete_order">Complete</string>
+    <string name="button_cancel_order">Cancel</string>
+    <string name="complete_order_title">Complete Order</string>
+    <string name="complete_order_message">Mark this order as completed?</string>
+    <string name="cancel_order_title">Cancel Order</string>
+    <string name="cancel_order_message">Cancel this order? The stock will be restored.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="order_completed_success">Order marked as completed</string>
+    <string name="order_cancelled_success">Order cancelled and stock restored</string>
 </resources>

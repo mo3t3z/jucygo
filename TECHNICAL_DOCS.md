@@ -29,6 +29,7 @@ app/src/main/
 │   ├── model/
 │   │   ├── Product.java          # Product model class
 │   │   ├── Sale.java             # Sale model class
+│   │   ├── Order.java            # Order model class
 │   │   └── DBHelper.java         # SQLite database helper
 │   ├── controller/
 │   │   ├── MainActivity.java                    # Entry point
@@ -37,8 +38,11 @@ app/src/main/
 │   │   ├── EditProductActivity.java             # Edit/delete product
 │   │   ├── AddSaleActivity.java                 # Record new sale
 │   │   ├── SalesHistoryActivity.java            # Sales history view
+│   │   ├── AddOrderActivity.java                # Create new order
+│   │   ├── OrderHistoryActivity.java            # Order history view
 │   │   ├── ProductAdapter.java                  # RecyclerView adapter for products
-│   │   └── SalesHistoryAdapter.java             # RecyclerView adapter for sales
+│   │   ├── SalesHistoryAdapter.java             # RecyclerView adapter for sales
+│   │   └── OrderHistoryAdapter.java             # RecyclerView adapter for orders
 │   └── view/ (implied through XML layouts)
 ├── res/
 │   ├── layout/
@@ -47,8 +51,11 @@ app/src/main/
 │   │   ├── activity_edit_product.xml
 │   │   ├── activity_add_sale.xml
 │   │   ├── activity_sales_history.xml
+│   │   ├── activity_add_order.xml
+│   │   ├── activity_order_history.xml
 │   │   ├── item_product.xml
-│   │   └── item_sale.xml
+│   │   ├── item_sale.xml
+│   │   └── item_order.xml
 │   ├── values/
 │   │   ├── strings.xml
 │   │   ├── colors.xml
@@ -63,7 +70,7 @@ app/src/main/
 
 ### Database Information
 - **Database Name:** `JucygoDB`
-- **Version:** 2
+- **Version:** 3
 - **Location:** `/data/data/com.example.jucygo/databases/JucygoDB`
 
 ### Tables
@@ -104,6 +111,30 @@ CREATE TABLE sales (
 - `quantitySold`: Number of units sold
 - `unitPrice`: Price per unit at time of sale
 - `totalAmount`: Total sale amount (unitPrice × quantitySold)
+- `date`: Timestamp in format "yyyy-MM-dd HH:mm:ss"
+
+#### 3. Orders Table
+```sql
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customerName TEXT NOT NULL,
+    productName TEXT NOT NULL,
+    quantityOrdered INTEGER NOT NULL,
+    unitPrice REAL NOT NULL,
+    totalAmount REAL NOT NULL,
+    status TEXT NOT NULL,
+    date TEXT NOT NULL
+);
+```
+
+**Columns:**
+- `id`: Primary key, auto-increment
+- `customerName`: Name of the customer for the order
+- `productName`: Name of the product ordered
+- `quantityOrdered`: Number of units ordered
+- `unitPrice`: Price per unit at time of order
+- `totalAmount`: Total order amount (unitPrice × quantityOrdered)
+- `status`: Order status ("pending", "completed", or "cancelled")
 - `date`: Timestamp in format "yyyy-MM-dd HH:mm:ss"
 
 ---

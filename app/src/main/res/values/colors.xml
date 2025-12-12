@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="purple_200">#E1BEE7</color>
-    <color name="purple_500">#9C27B0</color>
-    <color name="purple_700">#7B1FA2</color>
-    <color name="purple_900">#4A148C</color>
+    <!-- Primary Colors - Vibrant Gradient Purple/Magenta -->
+    <color name="purple_200">#E8B5FF</color>
+    <color name="purple_500">#A855F7</color>
+    <color name="purple_700">#7C3AED</color>
+    <color name="purple_900">#5B21B6</color>
     
-    <!-- Accent Colors -->
-    <color name="teal_200">#80CBC4</color>
-    <color name="teal_500">#009688</color>
-    <color name="teal_700">#00796B</color>
+    <!-- Accent Colors - Fresh Mint/Emerald -->
+    <color name="teal_200">#6EE7B7</color>
+    <color name="teal_500">#10B981</color>
+    <color name="teal_700">#059669</color>
     
-    <!-- Juice Theme Colors -->
-    <color name="orange_juice">#FF9800</color>
-    <color name="orange_juice_light">#FFE0B2</color>
-    <color name="green_juice">#4CAF50</color>
-    <color name="green_juice_light">#C8E6C9</color>
+    <!-- Juice Theme Colors - Tropical Vibes -->
+    <color name="orange_juice">#F97316</color>
+    <color name="orange_juice_light">#FFEDD5</color>
+    <color name="green_juice">#22C55E</color>
+    <color name="green_juice_light">#DCFCE7</color>
+    <color name="mango_yellow">#FACC15</color>
+    <color name="berry_pink">#EC4899</color>
+    <color name="grape_purple">#8B5CF6</color>
+    <color name="watermelon_red">#FB7185</color>
     
     <!-- Neutral Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray_100">#F5F5F5</color>
-    <color name="gray_200">#EEEEEE</color>
-    <color name="gray_300">#E0E0E0</color>
-    <color name="gray_600">#757575</color>
-    <color name="gray_800">#424242</color>
+    <color name="gray_100">#F8FAFC</color>
+    <color name="gray_200">#E2E8F0</color>
+    <color name="gray_300">#CBD5E1</color>
+    <color name="gray_600">#64748B</color>
+    <color name="gray_800">#1E293B</color>
     
-    <!-- Background Colors -->
-    <color name="background_light">#FAFAFA</color>
+    <!-- Background Colors - Soft Cream -->
+    <color name="background_light">#FFFBF5</color>
     <color name="surface_light">#FFFFFF</color>
     
-    <!-- Input Colors - Creative Light Colors -->
-    <color name="input_background_purple">#F3E5F5</color>
-    <color name="input_background_teal">#E0F2F1</color>
-    <color name="input_background_orange">#FFF3E0</color>
-    <color name="input_background_green">#E8F5E9</color>
-    <color name="input_background_blue">#E3F2FD</color>
-    <color name="input_background_pink">#FCE4EC</color>
+    <!-- Input Colors - Pastel Paradise -->
+    <color name="input_background_purple">#FAF5FF</color>
+    <color name="input_background_teal">#ECFDF5</color>
+    <color name="input_background_orange">#FFF7ED</color>
+    <color name="input_background_green">#F0FDF4</color>
+    <color name="input_background_blue">#EFF6FF</color>
+    <color name="input_background_pink">#FDF2F8</color>
+    <color name="input_background_yellow">#FEFCE8</color>
     
-    <!-- Input Border Colors -->
-    <color name="input_border_purple">#CE93D8</color>
-    <color name="input_border_teal">#4DB6AC</color>
-    <color name="input_border_orange">#FFB74D</color>
-    <color name="input_border_green">#81C784</color>
+    <!-- Input Border Colors - Candy Pop -->
+    <color name="input_border_purple">#C084FC</color>
+    <color name="input_border_teal">#34D399</color>
+    <color name="input_border_orange">#FB923C</color>
+    <color name="input_border_green">#4ADE80</color>
+    <color name="input_border_pink">#F472B6</color>
     
     <!-- Text Colors -->
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
     
-    <!-- Status Colors -->
-    <color name="success_green">#4CAF50</color>
-    <color name="warning_orange">#FF9800</color>
-    <color name="error_red">#F44336</color>
+    <!-- Status Colors - Modern Flat -->
+    <color name="success_green">#22C55E</color>
+    <color name="warning_orange">#F59E0B</color>
+    <color name="error_red">#EF4444</color>
+    <color name="red_error">#DC2626</color>
+    <color name="info_blue">#3B82F6</color>
 </resources>

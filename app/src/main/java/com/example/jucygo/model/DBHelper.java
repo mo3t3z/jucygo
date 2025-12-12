@@ -16,11 +16,12 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
     // Database name and version
     private static final String DATABASE_NAME = "JucygoDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Table names
     private static final String TABLE_PRODUCTS = "products";
     private static final String TABLE_SALES = "sales";
+    private static final String TABLE_ORDERS = "orders";
 
     // Product column names
     private static final String COLUMN_ID = "id";
@@ -36,6 +37,16 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_UNIT_PRICE = "unitPrice";
     private static final String COLUMN_TOTAL_AMOUNT = "totalAmount";
     private static final String COLUMN_DATE = "date";
+
+    // Order column names
+    private static final String COLUMN_ORDER_ID = "id";
+    private static final String COLUMN_CUSTOMER_NAME = "customerName";
+    private static final String COLUMN_ORDER_PRODUCT_NAME = "productName";
+    private static final String COLUMN_QUANTITY_ORDERED = "quantityOrdered";
+    private static final String COLUMN_ORDER_UNIT_PRICE = "unitPrice";
+    private static final String COLUMN_ORDER_TOTAL_AMOUNT = "totalAmount";
+    private static final String COLUMN_ORDER_STATUS = "status";
+    private static final String COLUMN_ORDER_DATE = "date";
 
     // SQL query to create the products table
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + "("
@@ -56,6 +67,18 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_DATE + " TEXT NOT NULL"
             + ")";
 
+    // SQL query to create the orders table
+    private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + "("
+            + COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_CUSTOMER_NAME + " TEXT NOT NULL,"
+            + COLUMN_ORDER_PRODUCT_NAME + " TEXT NOT NULL,"
+            + COLUMN_QUANTITY_ORDERED + " INTEGER NOT NULL,"
+            + COLUMN_ORDER_UNIT_PRICE + " REAL NOT NULL,"
+            + COLUMN_ORDER_TOTAL_AMOUNT + " REAL NOT NULL,"
+            + COLUMN_ORDER_STATUS + " TEXT NOT NULL,"
+            + COLUMN_ORDER_DATE + " TEXT NOT NULL"
+            + ")";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -64,6 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_PRODUCTS);
         db.execSQL(CREATE_TABLE_SALES);
+        db.execSQL(CREATE_TABLE_ORDERS);
     }
 
     @Override
@@ -71,11 +95,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if (oldVersion < 2) {
             // Create sales table for version 2
             db.execSQL(CREATE_TABLE_SALES);
-        } else {
-            // For future migrations, handle accordingly
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_SALES);
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
-            onCreate(db);
+        }
+        if (oldVersion < 3) {
+            // Create orders table for version 3
+            db.execSQL(CREATE_TABLE_ORDERS);
         }
     }
 
@@ -391,6 +414,261 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return total;
+    }
+
+    // ==================== ORDER MANAGEMENT ====================
+
+    /**
+     * Add a new order to the database and update stock.
+     * @param order The order to add
+     * @return The row ID of the newly inserted row, or -1 if an error occurred
+     */
+    public long addOrder(Order order) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_CUSTOMER_NAME, order.getCustomerName());
+        values.put(COLUMN_ORDER_PRODUCT_NAME, order.getProductName());
+        values.put(COLUMN_QUANTITY_ORDERED, order.getQuantityOrdered());
+        values.put(COLUMN_ORDER_UNIT_PRICE, order.getUnitPrice());
+        values.put(COLUMN_ORDER_TOTAL_AMOUNT, order.getTotalAmount());
+        values.put(COLUMN_ORDER_STATUS, order.getStatus());
+        values.put(COLUMN_ORDER_DATE, order.getDate());
+
+        long result = db.insert(TABLE_ORDERS, null, values);
+        db.close();
+        return result;
+    }
+
+    /**
+     * Retrieve all orders from the database.
+     * @return List of all orders
+     */
+    public List<Order> getAllOrders() {
+        List<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + " ORDER BY " + COLUMN_ORDER_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+    /**
+     * Retrieve an order by its ID from the database.
+     * @param id The id of the order to retrieve
+     * @return The order if found, null otherwise
+     */
+    public Order getOrderById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + " WHERE " + COLUMN_ORDER_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
+
+        Order order = null;
+        if (cursor.moveToFirst()) {
+            order = new Order(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+            );
+        }
+
+        cursor.close();
+        db.close();
+        return order;
+    }
+
+    /**
+     * Update the status of an order.
+     * @param orderId The id of the order
+     * @param newStatus The new status ("pending", "completed", "cancelled")
+     * @return The number of rows affected
+     */
+    public int updateOrderStatus(int orderId, String newStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ORDER_STATUS, newStatus);
+
+        int result = db.update(TABLE_ORDERS, values, COLUMN_ORDER_ID + " = ?",
+                new String[]{String.valueOf(orderId)});
+        db.close();
+        return result;
+    }
+
+    /**
+     * Delete an order from the database.
+     * @param id The id of the order to delete
+     * @return The number of rows affected
+     */
+    public int deleteOrder(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_ORDERS, COLUMN_ORDER_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+        return result;
+    }
+
+    /**
+     * Search orders by customer name (case-insensitive partial match).
+     * @param query The search query (customer name)
+     * @return List of matching orders
+     */
+    public List<Order> searchOrdersByCustomerName(String query) {
+        List<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + 
+                " WHERE " + COLUMN_CUSTOMER_NAME + " LIKE ?" +
+                " ORDER BY " + COLUMN_ORDER_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{"%" + query + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+    /**
+     * Search orders by product name (case-insensitive partial match).
+     * @param query The search query (product name)
+     * @return List of matching orders
+     */
+    public List<Order> searchOrdersByProductName(String query) {
+        List<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + 
+                " WHERE " + COLUMN_ORDER_PRODUCT_NAME + " LIKE ?" +
+                " ORDER BY " + COLUMN_ORDER_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{"%" + query + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+    /**
+     * Search orders by date (matches date part, not time).
+     * @param dateQuery The date string to search (e.g., "2024-01-15")
+     * @return List of matching orders
+     */
+    public List<Order> searchOrdersByDate(String dateQuery) {
+        List<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + 
+                " WHERE " + COLUMN_ORDER_DATE + " LIKE ?" +
+                " ORDER BY " + COLUMN_ORDER_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{dateQuery + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+    /**
+     * Get pending orders only.
+     * @return List of pending orders
+     */
+    public List<Order> getPendingOrders() {
+        List<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_ORDERS + 
+                " WHERE " + COLUMN_ORDER_STATUS + " = ?" +
+                " ORDER BY " + COLUMN_ORDER_ID + " DESC";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{Order.STATUS_PENDING});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CUSTOMER_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_PRODUCT_NAME)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_QUANTITY_ORDERED)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_UNIT_PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL_AMOUNT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_STATUS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
     }
 }
 

@@ -28,6 +28,8 @@ public class ProductListActivity extends AppCompatActivity {
     private MaterialButton buttonAddNewProduct;
     private MaterialButton buttonRecordSale;
     private MaterialButton buttonSalesHistory;
+    private MaterialButton buttonNewOrder;
+    private MaterialButton buttonOrderHistory;
     private ProductAdapter productAdapter;
     private DBHelper dbHelper;
 
@@ -43,6 +45,8 @@ public class ProductListActivity extends AppCompatActivity {
         buttonAddNewProduct = findViewById(R.id.buttonAddNewProduct);
         buttonRecordSale = findViewById(R.id.buttonRecordSale);
         buttonSalesHistory = findViewById(R.id.buttonSalesHistory);
+        buttonNewOrder = findViewById(R.id.buttonNewOrder);
+        buttonOrderHistory = findViewById(R.id.buttonOrderHistory);
 
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
         productAdapter = new ProductAdapter(null, product -> {
@@ -65,6 +69,16 @@ public class ProductListActivity extends AppCompatActivity {
 
         buttonSalesHistory.setOnClickListener(v -> {
             Intent intent = new Intent(ProductListActivity.this, SalesHistoryActivity.class);
+            startActivity(intent);
+        });
+
+        buttonNewOrder.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductListActivity.this, AddOrderActivity.class);
+            startActivity(intent);
+        });
+
+        buttonOrderHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductListActivity.this, OrderHistoryActivity.class);
             startActivity(intent);
         });
 
